@@ -10,6 +10,7 @@ import plotly.express as px
 import streamlit as st
 import streamlit.components.v1 as components
 import requests
+import io
 
 # ── CONFIGURAZIONE PAGINA ────────────────────────────────────────────────────
 st.set_page_config(
