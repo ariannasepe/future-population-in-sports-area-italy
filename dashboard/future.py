@@ -276,22 +276,65 @@ div[data-testid="stMainBlockContainer"] div[data-testid="stSelectbox"] > div > d
 
 # ── DATA ─────────────────────────────────────────────────────────────────────
 
-IMPIANTI_PATH   = "impianti_finale_completo.geojson"
-COMUNI_PATH     = "indicatore_domanda_offerta_comuni.geojson"
-
-
-@st.cache_data
+R2_BASE = "https://pub-584dcc02327247d484117c5739fd51a9.r2.dev"
+ 
+IMPIANTI_URL   = f"{R2_BASE}/impianti_finale_completo.geojson"
+COMUNI_URL     = f"{R2_BASE}/aggregato_domanda_offerta_comuni_lightgeo.geojson"
+POP_SERIE_URL  = f"{R2_BASE}/popolazione_comuni_ssp2_serie_temporale_lightgeo.geojson"
+KEPLER_URL     = f"{R2_BASE}/kepler3_finale.html"
+ 
+ 
+@st.cache_data(show_spinner="Caricamento impianti e comuni...")
 def carica_dati():
+    """Scarica e legge i due dataset principali (impianti, comuni) da Cloudflare R2."""
     try:
-        impianti = gpd.read_file(IMPIANTI_PATH)
-        comuni = gpd.read_file(COMUNI_PATH)
+        r_impianti = requests.get(IMPIANTI_URL, timeout=30)
+        r_impianti.raise_for_status()
+        impianti = gpd.read_file(io.BytesIO(r_impianti.content))
+ 
+        r_comuni = requests.get(COMUNI_URL, timeout=30)
+        r_comuni.raise_for_status()
+        comuni = gpd.read_file(io.BytesIO(r_comuni.content))
+ 
         return impianti, comuni
+    except requests.exceptions.RequestException as e:
+        st.error(f"Errore di rete nel caricamento dati: {e}")
+        return None, None
     except Exception as e:
         st.error(f"Errore nel caricamento dati: {e}")
         return None, None
-
-
+ 
+ 
+@st.cache_data(show_spinner="Caricamento serie temporale...")
+def carica_serie_temporale():
+    """Scarica e legge la serie temporale di popolazione comunale (2020-2100)."""
+    try:
+        r = requests.get(POP_SERIE_URL, timeout=30)
+        r.raise_for_status()
+        pop_serie = gpd.read_file(io.BytesIO(r.content))
+        return pd.DataFrame(pop_serie.drop(columns="geometry", errors="ignore"))
+    except requests.exceptions.RequestException as e:
+        st.error(f"Errore di rete nel caricamento serie temporale: {e}")
+        return None
+    except Exception as e:
+        st.error(f"Errore nel caricamento serie temporale: {e}")
+        return None
+ 
+ 
+@st.cache_data(show_spinner=False)
+def carica_mappa_kepler():
+    """Scarica l'HTML della mappa Kepler già pronta da Cloudflare R2."""
+    try:
+        r = requests.get(KEPLER_URL, timeout=30)
+        r.raise_for_status()
+        return r.text
+    except requests.exceptions.RequestException:
+        return None
+ 
+ 
 impianti, comuni = carica_dati()
+pop_serie = carica_serie_temporale()
+ 
 
 # --- Carica la serie temporale completa (2020-2100) ---
 @st.cache_data
@@ -443,27 +486,14 @@ with tab_mappa:
     <div class="insight-box">
         La mappa integra tre livelli di lettura. A livello puntuale, i bacini di utenza di 500
         metri attorno a ciascun impianto sportivo sono colorati in base agli abitanti attesi per
-        impianto nella stessa zona al 2050 (proiezione SSP2): dal verde (zone in calo demografico,
-        dove l'impianto rischia di perdere utenza) al rosso (zone in crescita, dove la domanda
-        aumenterà e potrebbe servire ampliare l'offerta). Lo stesso indicatore è disponibile anche
-        aggregato a livello comunale, per verificare se le zone in surplus o carenza coincidono con
-        comuni in calo o crescita demografica. Un terzo layer mostra infine la popolazione comunale
-        proiettata dal 2020 al 2100, esplorabile con il filtro temporale.
+        impianto nella stessa zona al 2050 (proiezione SSP2). Lo stesso indicatore è disponibile
+        anche aggregato a livello comunale, per verificare se le zone in surplus o carenza
+        coincidono con comuni in calo o crescita demografica. Un terzo layer mostra infine la
+        popolazione comunale proiettata dal 2020 al 2100, esplorabile con il filtro temporale.
     </div>
     """, unsafe_allow_html=True)
 
-    KEPLER_URL = "https://pub-584dcc02327247d484117c5739fd51a9.r2.dev/kepler3_finale.html"
-
-    @st.cache_data(show_spinner=False)
-    def load_kepler_remote(url):
-        try:
-            r = requests.get(url, timeout=30)
-            r.raise_for_status()
-            return r.text
-        except requests.exceptions.RequestException:
-            return None
-
-    html_map = load_kepler_remote(KEPLER_URL)
+    html_map = carica_mappa_kepler()
 
     if html_map:
         st.markdown('<div class="map-container">', unsafe_allow_html=True)
@@ -488,14 +518,15 @@ with tab_mappa:
 with tab_dati:
     st.markdown("""
     <p class="section-label">Esplora i dati</p>
-    <p class="section-title">Titolo</p>
+    <p class="section-title">Evoluzione della domanda sportiva (2020-2100)</p>
     """, unsafe_allow_html=True)
 
     st.markdown("""
     <div class="insight-box">
-        I comuni sono ordinati per variazione percentuale del rapporto abitanti/impianto tra il
-        2024 e il 2050: valori positivi segnalano una domanda sportiva in crescita rispetto
-        all'offerta attuale, valori negativi una progressiva sovradotazione.
+        Il grafico mostra come cambia, anno per anno dal 2020 al 2100, il rapporto tra
+        popolazione proiettata (scenario SSP2) e numero di impianti sportivi esistenti nei
+        comuni selezionati. Una linea in salita indica una domanda sportiva in crescita
+        rispetto all'offerta attuale; una linea in discesa indica il contrario.
     </div>
     """, unsafe_allow_html=True)
 
