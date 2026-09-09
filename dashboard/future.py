@@ -515,6 +515,7 @@ with tab_mappa:
 # ══════════════════════════════════════════════════════════════════════════
 # SEZIONE 2 — DATI E TABELLE
 # ══════════════════════════════════════════════════════════════════════════
+
 with tab_dati:
     st.markdown("""
     <p class="section-label">Esplora i dati</p>
@@ -530,7 +531,6 @@ with tab_dati:
     </div>
     """, unsafe_allow_html=True)
 
-
     if pop_serie is not None and comuni is not None:
         # Unisci la popolazione per anno al numero di impianti (costante nel tempo)
         n_impianti_per_comune = comuni[["PRO_COM", "n_impianti"]]
@@ -539,7 +539,6 @@ with tab_dati:
             serie_completa["popolazione"] / serie_completa["n_impianti"].replace(0, pd.NA)
         )
 
-        # Selettore comuni (default: i 5 con variazione 2024-2050 più alta, se disponibile)
         comuni_disponibili = sorted(serie_completa["COMUNE"].dropna().unique().tolist())
         default_comuni = comuni_disponibili[:5]
 
@@ -557,7 +556,6 @@ with tab_dati:
         fig.update_layout(height=480, xaxis_title="Anno", yaxis_title="Abitanti per impianto")
         st.plotly_chart(fig, use_container_width=True, config={"displayModeBar": False})
 
-
         st.markdown("<div class='divider'></div>", unsafe_allow_html=True)
 
         st.markdown('<p class="section-title" style="font-size:1.1rem;">Tabella impianti (con filtri applicati)</p>',
@@ -573,7 +571,7 @@ with tab_dati:
             use_container_width=True, height=400,
         )
     else:
-        st.info("Nessun dato disponibile con i filtri correnti.")
+        st.info("Nessun dato disponibile.")
 
     st.markdown("<div class='divider'></div>", unsafe_allow_html=True)
 
