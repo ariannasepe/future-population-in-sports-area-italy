@@ -311,18 +311,34 @@ div[data-testid="stMainBlockContainer"] label {
     opacity: 1 !important;
 }
 
-/* ── Placeholder multiselect sidebar (solo il testo nel box chiuso) ── */
-section[data-testid="stSidebar"] div[data-testid="stMultiSelect"] div[data-baseweb="select"] > div:first-child {
-    color: #ffffff !important;
+/* ── Menu a tendina multiselect: copre più varianti di selettore per sicurezza ── */
+ul[role="listbox"],
+div[role="listbox"],
+[data-baseweb="popover"],
+[data-baseweb="menu"] {
+    background-color: #1a3a52 !important;
 }
 
-/* ── Opzioni dentro il menu a tendina aperto ── */
-div[data-baseweb="popover"] li,
-div[data-baseweb="popover"] div[role="option"] {
-    color: #e8f4fb !important;
+ul[role="listbox"] li,
+div[role="listbox"] li,
+[data-baseweb="popover"] li,
+[data-baseweb="menu"] li,
+[role="option"],
+li[role="option"] {
+    color: #ffffff !important;
+    background-color: transparent !important;
 }
-div[data-baseweb="popover"] {
-    background-color: #1a3a52 !important;
+
+ul[role="listbox"] li:hover,
+div[role="listbox"] li:hover,
+[role="option"]:hover {
+    background-color: #25465D !important;
+}
+
+/* Copre anche eventuali span/div di testo annidati dentro le opzioni */
+[role="option"] *,
+li[role="option"] * {
+    color: #ffffff !important;
 }
 
 </style>
