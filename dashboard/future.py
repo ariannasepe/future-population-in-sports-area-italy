@@ -336,18 +336,6 @@ def carica_mappa_kepler():
 impianti, comuni = carica_dati()
 pop_serie = carica_serie_temporale()
  
-
-# --- Carica la serie temporale completa (2020-2100) ---
-@st.cache_data
-def carica_serie_temporale():
-    try:
-        pop_serie = gpd.read_file("popolazione_comuni_ssp2_serie_temporale_lightgeo.geojson")
-        return pd.DataFrame(pop_serie.drop(columns="geometry"))
-    except Exception as e:
-        st.error(f"Errore caricamento serie temporale: {e}")
-        return None
-
-pop_serie = carica_serie_temporale()
 # ── SIDEBAR ───────────────────────────────────────────────────────────────────
 with st.sidebar:
     st.markdown(f"""
