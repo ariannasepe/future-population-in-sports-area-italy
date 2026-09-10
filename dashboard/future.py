@@ -632,14 +632,19 @@ with st.expander("Nota metodologica"):
     st.markdown("""
 **Fonti dei dati:** impianti sportivi da OpenStreetMap (via Layercake Buildings e
 Overpass API); confini comunali da ISTAT; popolazione attuale ad alta risoluzione
-da Kontur; proiezione demografica al 2050 dallo scenario SSP2
+da Kontur; proiezione demografica dal 2020 al 2100 dallo scenario SSP2
 (Wang, Meng, Long — 2022, *Scientific Data*).
 
-**Indicatore:** per ogni area (comune o bacino di 500m attorno a un impianto) si
-calcola il rapporto tra popolazione e numero di impianti sportivi esistenti, oggi
-e nel 2050 secondo lo scenario SSP2, assumendo un'offerta di impianti costante nel
-tempo. La variazione percentuale tra i due valori individua le aree a rischio di
-carenza (valori positivi) o sovradotazione (valori negativi) futura.
+**Indicatore puntuale e comunale:** per ogni area (comune o bacino di 500m attorno
+a un impianto) si calcola il rapporto tra popolazione e numero di impianti sportivi
+esistenti, oggi e nel 2050 secondo lo scenario SSP2, assumendo un'offerta di impianti
+costante nel tempo. La variazione percentuale tra i due valori individua le aree a
+rischio di carenza (valori positivi) o sovradotazione (valori negativi) futura.
+
+**Layer temporale (2020-2100):** oltre al confronto puntuale al 2050, la mappa e il
+grafico "Evoluzione della domanda sportiva" mostrano l'andamento anno per anno del
+rapporto abitanti/impianto per ogni comune, su tutto l'orizzonte di proiezione
+disponibile in SSP2 (2020-2100, ogni 5 anni), a offerta di impianti costante.
 
 **Copertura:** circa il 96,5% dei comuni italiani ha una proiezione calcolabile;
 il restante 3,5% è escluso per limiti di risoluzione del dataset SSP2 in aree
@@ -648,5 +653,6 @@ molto piccole o isolate.
 **Limiti:** SSP2 è uno tra cinque possibili scenari demografici (Shared
 Socioeconomic Pathways) e rappresenta un'ipotesi di evoluzione "intermedia",
 non una previsione certa. L'offerta di impianti è considerata costante nel
-tempo: nuove costruzioni o dismissioni non sono modellate.
+tempo su tutto l'orizzonte 2020-2100: nuove costruzioni o dismissioni non
+sono modellate.
     """)
