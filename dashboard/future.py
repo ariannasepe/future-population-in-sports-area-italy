@@ -271,6 +271,24 @@ div[data-testid="stMainBlockContainer"] div[data-testid="stSelectbox"] > div > d
     border: 1.5px solid #b3dff5 !important;
     border-radius: 8px !important;
 }
+
+/* ── Multiselect nel contenuto principale (non sidebar) ── */
+div[data-testid="stMainBlockContainer"] div[data-testid="stMultiSelect"] > div > div {
+    background-color: #ffffff !important;
+    border: 1.5px solid #b3dff5 !important;
+    border-radius: 8px !important;
+}
+div[data-testid="stMainBlockContainer"] div[data-testid="stMultiSelect"] span[data-baseweb="tag"] {
+    background-color: #25465D !important;
+    color: #ffffff !important;
+    border-radius: 6px !important;
+}
+div[data-testid="stMainBlockContainer"] label {
+    color: #25465D !important;
+    font-weight: 600 !important;
+    opacity: 1 !important;
+}
+
 </style>
 """, unsafe_allow_html=True)
 
