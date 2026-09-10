@@ -322,17 +322,6 @@ def carica_serie_temporale():
         return None
  
  
-@st.cache_data(show_spinner=False)
-def carica_mappa_kepler():
-    """Scarica l'HTML della mappa Kepler già pronta da Cloudflare R2."""
-    try:
-        r = requests.get(KEPLER_URL, timeout=30)
-        r.raise_for_status()
-        return r.text
-    except requests.exceptions.RequestException:
-        return None
- 
- 
 impianti, comuni = carica_dati()
 pop_serie = carica_serie_temporale()
  
@@ -482,22 +471,12 @@ with tab_mappa:
     </div>
     """, unsafe_allow_html=True)
 
-    html_map = carica_mappa_kepler()
-
-    if html_map:
-        st.markdown('<div class="map-container">', unsafe_allow_html=True)
-        col1, col2, col3 = st.columns([1, 10, 1])
-        with col2:
-            components.html(html_map, height=550, scrolling=False)
-        st.markdown('</div>', unsafe_allow_html=True)
-    else:
-        st.markdown("""
-        <div class="map-placeholder">
-            <div class="label">Mappa Kepler.gl non trovata</div>
-            <div style="font-size:0.75rem;color:#25465D;opacity:0.6;margin-top:0.4rem;">
-            </div>
-        </div>
-        """, unsafe_allow_html=True)
+   st.markdown(f"""
+    <div class="map-frame-wrap">
+        <iframe src="{KEPLER_URL}" width="100%" height="650"
+                style="border:none;border-radius:14px;"></iframe>
+    </div>
+    """, unsafe_allow_html=True)
 
     st.markdown("<div class='divider'></div>", unsafe_allow_html=True)
 
