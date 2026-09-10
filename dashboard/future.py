@@ -261,8 +261,23 @@ footer { visibility: hidden; }
     opacity: 1 !important;
 }
 
-/* ── Dataframe ── */
-[data-testid="stDataFrame"] { background: #f4faff; border-radius: 12px; overflow: hidden; }
+/* ── Dataframe: forza tema scuro leggibile, indipendente dal tema light globale ── */
+[data-testid="stDataFrame"] {
+    background: #1a1a1a !important;
+    border-radius: 12px;
+    overflow: hidden;
+}
+[data-testid="stDataFrame"] * {
+    color: #ffffff !important;
+}
+[data-testid="stDataFrame"] [role="columnheader"] {
+    background: #333333 !important;
+    color: #ffffff !important;
+    font-weight: 700 !important;
+}
+[data-testid="stDataFrame"] [role="gridcell"] {
+    background: #1a1a1a !important;
+}
 
 /* ── Selectbox / slider nel main ── */
 div[data-testid="stMainBlockContainer"] div[data-testid="stSelectbox"] > div > div {
