@@ -311,6 +311,15 @@ div[data-testid="stMainBlockContainer"] label {
     opacity: 1 !important;
 }
 
+/* ── Placeholder multiselect sidebar (es. "Tutti gli sport") ── */
+section[data-testid="stSidebar"] div[data-testid="stMultiSelect"] div[data-baseweb="select"] div {
+    color: #ffffff !important;
+}
+section[data-testid="stSidebar"] div[data-testid="stMultiSelect"] input::placeholder {
+    color: #ffffff !important;
+    opacity: 0.85 !important;
+}
+
 </style>
 """, unsafe_allow_html=True)
 
