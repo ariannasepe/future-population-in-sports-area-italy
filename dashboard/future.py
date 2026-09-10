@@ -573,13 +573,21 @@ with tab_dati:
             "popolazione_bacino_2050_pesata", "n_impianti_bacino", "abitanti_per_impianto_bacino"
         ] if impianti_filtrati is not None and c in impianti_filtrati.columns]
 
-        tabella_html = impianti_filtrati[colonne_tabella].drop(columns="geometry", errors="ignore").to_html(
+        LIMITE_RIGHE_TABELLA = 200
+
+        df_tabella = impianti_filtrati[colonne_tabella].drop(columns="geometry", errors="ignore")
+        n_totale = len(df_tabella)
+
+        tabella_html = df_tabella.head(LIMITE_RIGHE_TABELLA).to_html(
             index=False, classes="tabella-scura", border=0
         )
         st.markdown(
             f'<div style="max-height:400px; overflow:auto; border-radius:12px;">{tabella_html}</div>',
             unsafe_allow_html=True
         )
+
+        if n_totale > LIMITE_RIGHE_TABELLA:
+            st.caption(f"Mostrate le prime {LIMITE_RIGHE_TABELLA} righe su {n_totale:,} totali. Usa i filtri in sidebar per restringere i risultati.".replace(",", "."))
     else:
         st.info("Nessun dato disponibile.")
 
