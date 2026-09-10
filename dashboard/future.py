@@ -311,13 +311,18 @@ div[data-testid="stMainBlockContainer"] label {
     opacity: 1 !important;
 }
 
-/* ── Placeholder multiselect sidebar (es. "Tutti gli sport") ── */
-section[data-testid="stSidebar"] div[data-testid="stMultiSelect"] div[data-baseweb="select"] div {
+/* ── Placeholder multiselect sidebar (solo il testo nel box chiuso) ── */
+section[data-testid="stSidebar"] div[data-testid="stMultiSelect"] div[data-baseweb="select"] > div:first-child {
     color: #ffffff !important;
 }
-section[data-testid="stSidebar"] div[data-testid="stMultiSelect"] input::placeholder {
-    color: #ffffff !important;
-    opacity: 0.85 !important;
+
+/* ── Opzioni dentro il menu a tendina aperto ── */
+div[data-baseweb="popover"] li,
+div[data-baseweb="popover"] div[role="option"] {
+    color: #e8f4fb !important;
+}
+div[data-baseweb="popover"] {
+    background-color: #1a3a52 !important;
 }
 
 </style>
