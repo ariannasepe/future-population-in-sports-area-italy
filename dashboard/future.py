@@ -471,7 +471,7 @@ with tab_mappa:
     </div>
     """, unsafe_allow_html=True)
 
-   st.markdown(f"""
+    st.markdown(f"""
     <div class="map-frame-wrap">
         <iframe src="{KEPLER_URL}" width="100%" height="650"
                 style="border:none;border-radius:14px;"></iframe>
