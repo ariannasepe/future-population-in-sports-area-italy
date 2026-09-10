@@ -261,22 +261,29 @@ footer { visibility: hidden; }
     opacity: 1 !important;
 }
 
-/* ── Dataframe: forza tema scuro leggibile, indipendente dal tema light globale ── */
-[data-testid="stDataFrame"] {
-    background: #1a1a1a !important;
-    border-radius: 12px;
-    overflow: hidden;
+/* ── Tabella HTML custom (sostituisce st.dataframe, che usa canvas non stilizzabile) ── */
+.tabella-scura {
+    width: 100%;
+    border-collapse: collapse;
+    background: #1a1a1a;
+    color: #ffffff;
+    font-size: 0.82rem;
 }
-[data-testid="stDataFrame"] * {
-    color: #ffffff !important;
+.tabella-scura th {
+    background: #333333;
+    color: #ffffff;
+    font-weight: 700;
+    padding: 0.5rem 0.8rem;
+    text-align: left;
+    position: sticky;
+    top: 0;
 }
-[data-testid="stDataFrame"] [role="columnheader"] {
-    background: #333333 !important;
-    color: #ffffff !important;
-    font-weight: 700 !important;
+.tabella-scura td {
+    padding: 0.4rem 0.8rem;
+    border-bottom: 1px solid #333333;
 }
-[data-testid="stDataFrame"] [role="gridcell"] {
-    background: #1a1a1a !important;
+.tabella-scura tr:hover td {
+    background: #262626;
 }
 
 /* ── Selectbox / slider nel main ── */
@@ -566,9 +573,12 @@ with tab_dati:
             "popolazione_bacino_2050_pesata", "n_impianti_bacino", "abitanti_per_impianto_bacino"
         ] if impianti_filtrati is not None and c in impianti_filtrati.columns]
 
-        st.dataframe(
-            impianti_filtrati[colonne_tabella].drop(columns="geometry", errors="ignore"),
-            use_container_width=True, height=400,
+        tabella_html = impianti_filtrati[colonne_tabella].drop(columns="geometry", errors="ignore").to_html(
+            index=False, classes="tabella-scura", border=0
+        )
+        st.markdown(
+            f'<div style="max-height:400px; overflow:auto; border-radius:12px;">{tabella_html}</div>',
+            unsafe_allow_html=True
         )
     else:
         st.info("Nessun dato disponibile.")
