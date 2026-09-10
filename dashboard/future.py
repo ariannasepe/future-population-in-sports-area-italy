@@ -652,7 +652,5 @@ molto piccole o isolate.
 
 **Limiti:** SSP2 è uno tra cinque possibili scenari demografici (Shared
 Socioeconomic Pathways) e rappresenta un'ipotesi di evoluzione "intermedia",
-non una previsione certa. L'offerta di impianti è considerata costante nel
-tempo su tutto l'orizzonte 2020-2100: nuove costruzioni o dismissioni non
-sono modellate.
+non una previsione certa. 
     """)
