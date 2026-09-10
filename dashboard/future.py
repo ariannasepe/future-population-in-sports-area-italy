@@ -246,20 +246,19 @@ footer { visibility: hidden; }
 [data-testid="stPlotlyChart"] > div { border-radius: 14px !important; }
 
 /* ── Tabs ── */
-.stTabs [data-baseweb="tab-list"] {
-    gap: 0.4rem;
-    background: #ffffff;
-    padding: 0.4rem;
-    border-radius: 12px;
-    box-shadow: 0 3px 12px rgba(0,0,0,0.08);
-}
 .stTabs [data-baseweb="tab"] {
-    font-size: 0.82rem; font-weight: 600; color: #666;
+    font-size: 0.82rem; font-weight: 600; color: #666 !important;
+    opacity: 1 !important;
     border-radius: 8px; padding: 0.5rem 1.1rem;
+}
+.stTabs [aria-selected="false"] {
+    color: #666 !important;
+    opacity: 1 !important;
 }
 .stTabs [aria-selected="true"] {
     background: #25465D !important;
     color: #ffffff !important;
+    opacity: 1 !important;
 }
 
 /* ── Dataframe ── */
