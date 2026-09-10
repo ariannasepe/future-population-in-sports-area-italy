@@ -280,7 +280,7 @@ div[data-testid="stMainBlockContainer"] div[data-testid="stSelectbox"] > div > d
 R2_BASE = "https://pub-584dcc02327247d484117c5739fd51a9.r2.dev"
  
 IMPIANTI_URL   = f"{R2_BASE}/impianti_finale_completo.geojson"
-COMUNI_URL     = f"{R2_BASE}/aggregato_domanda_offerta_comuni_lightgeo.geojson"
+COMUNI_URL     = f"{R2_BASE}/indicatore_domanda_offerta_comuni.geojson"
 POP_SERIE_URL  = f"{R2_BASE}/popolazione_comuni_ssp2_serie_temporale_lightgeo.geojson"
 KEPLER_URL     = f"{R2_BASE}/kepler3_finale.html"
  
